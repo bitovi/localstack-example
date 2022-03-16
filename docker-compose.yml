@@ -1,20 +1,11 @@
 version: '3.8'
 
 services:
-  my-app:
+  localstack:
     build:
       context: .
-      target: ${MY_ENV}
-    image: my-node-app:${MY_ENV}
-    ports:
-      - "4000:${MY_PORT}"
-    volumes:
-      - ./src:/app/src
-    environment:
-      PORT: ${MY_PORT}
-  localstack:
-    image: localstack/localstack:0.12.8
-    container_name: localstack-tut
+      dockerfile: Dockerfile
+    container_name: localstack-example
     hostname: localstack
     ports:
       - "4566:4566"
@@ -34,4 +25,3 @@ services:
     volumes:
       - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - './create-resources.sh:/docker-entrypoint-initaws.d/create-resources.sh'

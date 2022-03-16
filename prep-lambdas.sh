@@ -13,12 +13,8 @@
 
 echo "******************************************************************"
 
-mkdir lambdas
-cp index.js lambdas/index.js
-#cp package.json lambdas/package.json
-#cp package-lock.json lambdas/package-lock.json
-zip lambdas.zip lambdas
-rm -r lambdas
-cd /
+cd src
+zip -r lambdas.zip .
+cd -
 
 echo "******************************************************************"

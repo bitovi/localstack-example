@@ -1,16 +1,14 @@
-FROM node:15
-
+FROM node:15 as lambda
 
 ARG PORT=8000
 ENV PORT=$PORT
-WORKDIR app
-COPY .. .
-COPY src/package.json .
-COPY prep-lambdas.sh prep-lambdas.sh
+WORKDIR /usr/src
+COPY . .
 
-CMD prep-lambdas.sh
+RUN apt-get update
+RUN apt-get install zip
 
-RUN npm install
-EXPOSE $PORT
-CMD npm start
+RUN ./prep-lambdas.sh
 
+FROM localstack/localstack
+COPY --from=lambda /usr/src/src/lambdas.zip ./lambdas.zip
