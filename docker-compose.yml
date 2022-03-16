@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  my-app:
+    build:
+      context: .
+      target: ${MY_ENV}
+    image: my-node-app:${MY_ENV}
+    ports:
+      - "4000:${MY_PORT}"
+    volumes:
+      - ./src:/app/src
+    environment:
+      PORT: ${MY_PORT}
+  localstack:
+    image: localstack/localstack:0.12.8
+    container_name: localstack-tut
+    hostname: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=sqs,sns,iam,s3,lambda
+      - LAMBDA_REMOTE_DOCKER= 0
+      - DEBUG=1
+      - DATA_DIR=
+      - PORT_WEB_UI=${PORT_WEB_UI- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEFAULT_REGION=us-east-1
+      - HOSTNAME_EXTERNAL=localstack
+      - HOST_TMP_FOLDER=${TMPDIR}
+      - AWS_DEFAULT_REGION= us-east-1
+      - AWS_ACCESS_KEY_ID= testUser
+      - AWS_SECRET_ACCESS_KEY= testAccessKey
+    volumes:
+      - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - './create-resources.sh:/docker-entrypoint-initaws.d/create-resources.sh'
