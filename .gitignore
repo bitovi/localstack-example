@@ -1,3 +1,4 @@
 node_modules/
 .idea/
-.DS_Stoer
+.DS_Store
+src/lambdas.zip
