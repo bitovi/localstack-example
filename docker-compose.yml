@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   localstack:
+    network_mode: bridge
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,7 +12,7 @@ services:
       - "4566:4566"
     environment:
       - SERVICES=sqs,sns,iam,s3,lambda
-      - LAMBDA_REMOTE_DOCKER= 0
+      - LAMBDA_EXECUTOR= docker-reuse
       - DEBUG=1
       - DATA_DIR=
       - PORT_WEB_UI=${PORT_WEB_UI- }
@@ -22,6 +23,9 @@ services:
       - AWS_DEFAULT_REGION= us-east-1
       - AWS_ACCESS_KEY_ID= testUser
       - AWS_SECRET_ACCESS_KEY= testAccessKey
+      - AWS_SECRET_ACCESS_TOKEN= secretaccesstoken
+
     volumes:
-      - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      #      - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./create-resources.sh:/docker-entrypoint-initaws.d/create-resources.sh
