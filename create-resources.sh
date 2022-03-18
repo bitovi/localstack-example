@@ -1,4 +1,4 @@
-#!/usr/bin bash
+#!/bin/bash
 
 cat <<EOF > admin-policy.json
 {
@@ -49,7 +49,7 @@ aws \
       --notification-endpoint arn:aws:sqs:us-east-1:000000000000:testQueue
 echo "Initialize lambda testConsumerLambda"
 aws \
-  s3 cp src/lambdas.zip s3://lambda-functions \
+  s3 cp lambdas.zip s3://lambda-functions \
   --endpoint-url http://localhost:4566 \
   --region east-us-1
 aws \
