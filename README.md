@@ -6,15 +6,15 @@ To start localstack on your machine run:
 
 
 This will build a container named localstack-example and run create-resources.sh
-which creates the following aws resources: 
+which creates the following aws resources: <ol>
 
-iam - creates admin role<br>
-S3 - creates a S3 bucket named lambda-functions<br>
-SQS - creates testQueue queue<br>
-SNS - creates the testTopic topic<br>
-The script then subscribes the testTopic to the testQueue<br>
-lambda - creates the example lambda and sets the event source mapping to it<br>
-
+<li>iam - creates admin role</li>
+<li>S3 - creates a S3 bucket named lambda-functions</li>
+<li>SQS - creates testQueue queue<</li>
+<li>SNS - creates the testTopic topic</li>
+<li>The script then subscribes the testTopic to the testQueue</li>
+<li>lambda - creates the example lambda and sets the event source mapping to it</li>
+</ol>
 To publish a topic run: 
 
 `aws 
@@ -33,4 +33,7 @@ sqs send-message
 --region us-east-1 
 --message-body 'Test Message!'`
 
+To add additional npm dependencies to the lambda:<ol>
+- add `require` to your lambda<br>
+- add the dependency to your package.json</ol>
 
