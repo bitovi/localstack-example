@@ -8,7 +8,7 @@ COPY . .
 RUN apt-get update
 RUN apt-get install zip
 
-RUN ./prep-lambdas.sh
+RUN cd src && zip -r lambdas.zip .
 
 FROM localstack/localstack
 COPY --from=lambda /usr/src/src/lambdas.zip ./lambdas.zip

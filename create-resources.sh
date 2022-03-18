@@ -13,7 +13,6 @@ cat <<EOF > admin-policy.json
 }
 EOF
 
-echo "*************************"
 echo "Create admin"
 aws \
  --endpoint-url=http://localhost:4566 \
@@ -27,13 +26,13 @@ aws \
   s3 mb s3://lambda-functions \
   --endpoint-url http://localhost:4566 \
   --region east-us-1 || true
-echo "Create SQS queue testConsumer"
+echo "Create SQS queue testQueue"
 aws \
   sqs create-queue \
   --queue-name testQueue \
   --endpoint-url http://localhost:4566 \
   --region us-east-1
-echo "Create SNS Topic test"
+echo "Create SNS Topic testTopic"
 aws \
   sns create-topic \
   --name testTopic \
@@ -73,22 +72,3 @@ aws \
   --endpoint-url=http://localhost:4566
 echo "All resources initialized! 🚀"
 
-
-: '
-publish_topic
-  aws \
-  sns publish\
-  --endpoint-url=http://localhost:4566 \
-  --topic-arn arn:aws:sns:us-east-1:000000000000:testTopic \
-  --region us-east-1 \
-  --message 'Test Topic!'
-
-
-send_message_to_queue
-  aws \
-  sqs send-message \
-  --endpoint-url=http://localhost:4566 \
-  --queue-url http://localhost:4576/000000000000/testQueue \
-  --region us-east-1 \
-  --message-body 'Test Message!'
-'
